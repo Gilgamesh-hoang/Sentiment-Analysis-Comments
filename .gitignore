@@ -1,0 +1,12 @@
+# Bỏ qua thư mục môi trường ảo
+/Dataset/*
+!/Dataset/raw-data-final.txt
+
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Bỏ qua file cấu hình IDE
+.idea/*
+*.swp
