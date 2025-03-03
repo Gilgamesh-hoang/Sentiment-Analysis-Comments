@@ -38,7 +38,7 @@ class TestPreprocessFunctions(unittest.TestCase):
         self.assertEqual(standardize_sentence_typing("hello world"), "hello world")
 
     def test_normalize_acronyms_normalizes_correctly(self):
-        self.assertEqual(normalize_acronyms("ctrai"), "con trai")
+        self.assertEqual(normalize_acronyms("ctrai 😒"), "con trai")
 
     def test_normalize_acronyms_keeps_non_acronyms(self):
         self.assertEqual(normalize_acronyms("hello"), "hello")

@@ -1,6 +1,7 @@
 # Bỏ qua thư mục môi trường ảo
 /Dataset/*
 !/Dataset/raw-data-final.txt
+!/Dataset/dataset_embeddings.pkl
 
 venv/
 __pycache__/

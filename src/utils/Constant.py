@@ -9,3 +9,4 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # print('BASE_DIR:', BASE_DIR)
 TEEN_CODE_PATH = os.path.join(BASE_DIR, 'Nomalize', 'teencode.txt')
 STOPWORD_PATH = os.path.join(BASE_DIR, 'Nomalize', 'vietnamese-stopwords.txt')
+PHOBERT_MODEL = 'vinai/phobert-base-v2'

@@ -1,12 +1,7 @@
 import regex as re
-import emoji
-
 import underthesea
 
-from src.utils.Constant import TEEN_CODE_PATH, STOPWORD_PATH
-
-# List to store stop words
-stop_word_arr = []
+from src.utils.Constant import TEEN_CODE_PATH
 
 # Dictionary to store teen code mappings
 teen_code_dict = {}
@@ -41,26 +36,6 @@ with open(TEEN_CODE_PATH, 'r', encoding='utf-8') as f:
         line = line.strip().split('\t')
         if len(line) == 2:  # Ensure only valid lines are processed
             teen_code_dict[line[0]] = line[1]
-
-# Load stop words from file and populate stop_word_arr
-with open(STOPWORD_PATH, "r", encoding="UTF-8") as f:
-    stop_word = f.readlines()
-    for j in stop_word:
-        j = j.replace('\n', '').lower()
-        stop_word_arr.append(j)
-
-
-def remove_stopwords(line: str) -> str:
-    """
-        Remove stop words from a given line of text.
-        Args:
-            line (str): The input text line.
-        Returns:
-            str: The text line with stop words removed.
-        """
-    words = line.split()
-    words = [word for word in words if word not in stop_word_arr]
-    return ' '.join(words)
 
 
 # Standardize unicode
@@ -234,10 +209,8 @@ def normalize_acronyms(text: str) -> str:
             words.append(word)
         else:
             words.append(teen_code_dict[word])
-    return emoji.demojize(' '.join(words))  # Remove Emojis
+    return ' '.join(words)
 
-
-# Remove unnecessary characters
 def remove_unnecessary_characters(text: str) -> str:
     """
       Remove unnecessary characters from the text.
@@ -265,7 +238,6 @@ def preprocess_fn(text: str) -> str:
     text = convert_unicode(text)  # Convert Unicode characters to standard form
     text = normalize_acronyms(text)  # Replace acronyms (teen code)
     text = standardize_sentence_typing(text)  # Standardize Vietnamese typing
-    text = remove_stopwords(text)  # Remove stop words
-    text = underthesea.word_tokenize(text, format="text")  # Tokenize words
     text = remove_unnecessary_characters(text)  # Remove unnecessary characters
+    text = underthesea.word_tokenize(text, format="text")  # Tokenize words
     return text
