@@ -1,11 +1,13 @@
 # Test your FastAPI endpoints
 
-GET http://127.0.0.1:8000/
+GET http://127.0.0.1:8111/
 Accept: application/json
 
 ###
 
-GET http://127.0.0.1:8000/hello/User
-Accept: application/json
+POST http://127.0.0.1:8111//predict-sentiment
+Content-Type: application/json
 
-###
+{
+    "content": "hôm nay tôi hạnh phúc lắm"
+}

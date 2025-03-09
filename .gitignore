@@ -1,8 +1,9 @@
 # Bỏ qua thư mục môi trường ảo
 /Dataset/*
-!/Dataset/raw-data-final.txt
-!/Dataset/dataset_embeddings.pkl
+!/Dataset/test_data.txt
+!/Dataset/train_data.txt
 
+/Model/*
 venv/
 __pycache__/
 *.pyc
