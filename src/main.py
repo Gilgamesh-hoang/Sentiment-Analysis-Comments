@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 import os
-
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import uvicorn
 from fastapi import FastAPI, Depends, HTTPException
 from starlette.middleware.cors import CORSMiddleware
@@ -35,8 +36,8 @@ def get_service() -> ClassificationService:
 # Thêm middleware nếu cần (ví dụ: CORS)
 app.add_middleware(
     CORSMiddleware,# type: ignore
-    allow_origins=["http://localhost:3900"],
-    allow_credentials=True,
+    allow_origins=["http://localhost:8182"],
+    # allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -48,7 +49,6 @@ async def root():
 
 @app.post("/predict-sentiment")
 async def identify_face(request: SentimentRequest, service: ClassificationService = Depends(get_service)):
-    start = time.time()
     content = preprocess_fn(request.content.strip())
 
     if not content:
@@ -61,8 +61,7 @@ async def identify_face(request: SentimentRequest, service: ClassificationServic
 
     # Gọi hàm nhận diện khuôn mặt với dữ liệu bytes của ảnh
     response.data = service.predict(content)
-    print(f"Time: {time.time() - start} s")
-    print(response.to_dict())
+    # print(response.to_dict())
     return response.to_dict()
 
 

@@ -18,23 +18,24 @@ class SentimentClassifier(nn.Module):
         last_hidden_state, output = self.bert(
             input_ids=input_ids,
             attention_mask=attention_mask,
-            return_dict=False # Dropout will errors if without this
+            return_dict=False  # Dropout will errors if without this
         )
 
         x = self.drop(output)
         x = self.fc(x)
         return x
 
+
 class Response:
 
-    def __init__(self, message: str = None, data: object = None):
+    def __init__(self, message: str = None, data: str = None):
         self.message = message
         self.data = data
 
     def to_dict(self):
         return {
             "message": self.message,
-            "data": self.data
+            "data": self.data.upper()
         }
 
 
