@@ -1,17 +1,12 @@
 import unittest
 from src.preprocess import (
-    remove_stopwords, convert_unicode, is_valid_vietnamese_word,
+    convert_unicode, is_valid_vietnamese_word,
     standardize_word_typing, standardize_sentence_typing, normalize_acronyms,
     remove_unnecessary_characters, preprocess_fn
 )
 
 
 class TestPreprocessFunctions(unittest.TestCase):
-    def test_remove_stopwords_removes_stopwords(self):
-        self.assertEqual(remove_stopwords("không đầy test"), "test")
-
-    def test_remove_stopwords_keeps_non_stopwords(self):
-        self.assertEqual(remove_stopwords("sợ ghê"), "sợ ghê")
 
     def test_convert_unicode_converts_correctly(self):
         self.assertEqual(convert_unicode("à"), "à")

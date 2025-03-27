@@ -21,7 +21,7 @@ class ClassificationService:
             raise FileNotFoundError(f'Model file not found at {model_path}')
 
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        model = SentimentClassifier(n_classes=8)  # Số lớp phải giống lúc huấn luyện
+        model = SentimentClassifier(num_labels=3)  # Số lớp phải giống lúc huấn luyện
         model.load_state_dict(torch.load(model_path, map_location=device))
         model.to(device)
         model.eval()

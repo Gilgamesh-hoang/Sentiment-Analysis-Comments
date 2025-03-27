@@ -1,6 +1,6 @@
 import regex as re
 import underthesea
-
+import string
 from src.Constant import TEEN_CODE_PATH
 
 # Dictionary to store teen code mappings
@@ -225,6 +225,9 @@ def remove_unnecessary_characters(text: str) -> str:
     text = re.sub(r'\s+', ' ', text).strip()  # Remove extra whitespace
     return text
 
+def remove_html_tags(text):
+    clean_text = re.sub(r'<[^>]+>', ' ', text)
+    return clean_text
 
 def preprocess_fn(text: str) -> str:
     """
@@ -235,6 +238,10 @@ def preprocess_fn(text: str) -> str:
         str: The preprocessed text.
     """
     text = text.strip().lower()  # Normalize to lowercase & remove extra whitespace
+    text = re.sub(r'([a-z]+?)\1+', r'\1', text)  # reduce repeated character (e.g. 'aaabbb' -> 'ab')
+    text = remove_html_tags(text)  # Remove HTML tags
+    text = re.sub(f"([{string.punctuation}])([{string.punctuation}])+", r"\1", text)  # reduce consecutive punctuation
+    text = re.sub(r"\s+", " ", text)  # reduce multiple spaces
     text = convert_unicode(text)  # Convert Unicode characters to standard form
     text = normalize_acronyms(text)  # Replace acronyms (teen code)
     text = standardize_sentence_typing(text)  # Standardize Vietnamese typing

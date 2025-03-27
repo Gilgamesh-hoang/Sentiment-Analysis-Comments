@@ -1,16 +1,16 @@
-from contextlib import asynccontextmanager
 import os
-import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from contextlib import asynccontextmanager
+
+# import sys
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import uvicorn
 from fastapi import FastAPI, Depends, HTTPException
 from starlette.middleware.cors import CORSMiddleware
-import time
 
+from src.Constant import CLASSIFICATION_PATH
+from src.classification import ClassificationService
 from src.preprocess import preprocess_fn
 from src.type import SentimentRequest, Response
-from src.classification import ClassificationService
-from src.Constant import CLASSIFICATION_PATH
 
 # Khởi tạo service quản lý model
 classification_service = ClassificationService()
@@ -42,10 +42,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+@app.post("/")
+async def root1():
+    return {"data": "Hello World"}
 
+@app.get("/")
+async def root2():
+    return {"data": "Hello World"}
 
 @app.post("/predict-sentiment")
 async def identify_face(request: SentimentRequest, service: ClassificationService = Depends(get_service)):
@@ -56,12 +59,10 @@ async def identify_face(request: SentimentRequest, service: ClassificationServic
 
     response = Response()
     if len(content) == 1:
-        response.data = "Other"
+        response.data = "Neutral"
         return response.to_dict()
 
-    # Gọi hàm nhận diện khuôn mặt với dữ liệu bytes của ảnh
     response.data = service.predict(content)
-    # print(response.to_dict())
     return response.to_dict()
 
 

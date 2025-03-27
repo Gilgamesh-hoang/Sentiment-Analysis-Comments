@@ -8,5 +8,5 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEEN_CODE_PATH = os.path.join(BASE_DIR, 'Nomalize', 'teencode.txt')
 STOPWORD_PATH = os.path.join(BASE_DIR, 'Nomalize', 'vietnamese-stopwords.txt')
-CLASSIFICATION_PATH = os.path.join(BASE_DIR, 'Model', 'phobert_version2_fold1.pth')
+CLASSIFICATION_PATH = os.path.join(BASE_DIR, 'Model', 'phobert_text_classification.pth')
 PHOBERT_MODEL = 'vinai/phobert-base-v2'
