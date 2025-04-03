@@ -1,7 +1,6 @@
 # Bỏ qua thư mục môi trường ảo
 /Dataset/*
-!/Dataset/test_data.txt
-!/Dataset/train_data.txt
+!/Dataset/data.rar
 
 /Model/*
 venv/
