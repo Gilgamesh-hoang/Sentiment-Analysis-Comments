@@ -1,7 +1,7 @@
 import regex as re
 import underthesea
 import string
-from src.Constant import TEEN_CODE_PATH
+from src.util.Constant import TEEN_CODE_PATH
 
 # Dictionary to store teen code mappings
 teen_code_dict = {}

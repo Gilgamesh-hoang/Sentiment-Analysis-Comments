@@ -1,7 +1,3 @@
-# Test your FastAPI endpoints
-
-GET http://127.0.0.1:8111/
-Accept: application/json
 
 ###
 
@@ -9,5 +5,5 @@ POST http://127.0.0.1:8111//predict-sentiment
 Content-Type: application/json
 
 {
-    "content": "tao ghét mày lắm"
+    "content": "hôm nay thời tiết đẹp quá"
 }

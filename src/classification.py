@@ -1,20 +1,21 @@
 import torch
 from transformers import AutoTokenizer
 import os
-from src.label_encoder import decoder
-from src.type import SentimentClassifier
+from src.util.label_encoder import decoder
+from src.util.type import SentimentClassifier
 import logging
 
-from src.Constant import PHOBERT_MODEL
+from src.util.Constant import PHOBERT_MODEL, CLASSIFICATION_PATH
+
 
 class ClassificationService:
     def __init__(self):
-        self.__model = None
-        self.__device = None
-        self.__tokenizer = None
         logging.basicConfig(level=logging.DEBUG,
                             format='%(asctime)s - %(levelname)s - [in %(name)s:%(funcName)s():%(lineno)d] - %(message)s')
+
+        self.load_components(CLASSIFICATION_PATH)
         logging.info('Service initialized')
+
 
     def load_components(self, model_path):
         if os.path.exists(model_path) is False:

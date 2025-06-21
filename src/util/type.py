@@ -3,24 +3,39 @@ from torch import nn
 import torch
 from transformers import AutoModel
 
-from src.Constant import PHOBERT_MODEL
+from src.util.Constant import PHOBERT_MODEL
 
 
 class SentimentClassifier(nn.Module):
-    def __init__(self, num_labels=3, layers_to_use=[6, 9, 10, 11]):
+    def __init__(self, num_labels=3, layers_to_use=[6, 9, 10, 11], dropout_prob=0.4):
         super().__init__()
         self.num_labels = num_labels
         self.layers_to_use = layers_to_use
         self.phobert = AutoModel.from_pretrained(PHOBERT_MODEL, output_hidden_states=True)
         self.hidden_size = self.phobert.config.hidden_size
-        self.dropout = nn.Dropout(0.1)
+        self.dropout = nn.Dropout(dropout_prob)
 
-        # MLP với input là 4 * hidden_size (do ghép 4 lớp)
+        for name, param in self.phobert.named_parameters():
+            # Kiểm tra nếu tham số thuộc các layer transformer
+            if "layer" in name:
+                # Lấy số thứ tự layer
+                layer_num = int(name.split("layer.")[1].split(".")[0])
+                # Đóng băng nếu layer không nằm trong layers_to_use
+                if layer_num not in self.layers_to_use:
+                    param.requires_grad = False
+
         self.classifier = nn.Sequential(
             nn.Linear(len(layers_to_use) * self.hidden_size, 512),
-            nn.ReLU(),
-            nn.Dropout(0.3),
-            nn.Linear(512, num_labels)
+            nn.LayerNorm(512),
+            nn.GELU(),
+            nn.Dropout(0.4),
+
+            nn.Linear(512, 256),
+            nn.LayerNorm(256),
+            nn.GELU(),
+            nn.Dropout(0.4),
+
+            nn.Linear(256, num_labels)
         )
 
     def forward(self, input_ids, attention_mask):
